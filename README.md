@@ -42,14 +42,14 @@ The API will be running at `http://localhost:3000`.
 ## API Endpoints
 
 ### Authentication
-- **POST /auth/register** - Register a new user
+- **POST api/auth/register** - Register a new user
     ```json
     {
         "username": "example",
         "password": "password"
     }
     ```
-- **POST /auth/login** - Login and receive a token
+- **POST api/auth/login** - Login and receive a token
     ```json
     {
         "username": "example",
@@ -57,21 +57,21 @@ The API will be running at `http://localhost:3000`.
     }
     ```
 
-### ToDo Items
-- **GET /todos** - Get all to-do items for the authenticated user
-- **POST /todos** - Create a new to-do item
+### Tasks
+- **GET api/tasks** - Get all tasks for the authenticated user
+- **POST api/tasks** - Create a new task
     ```json
     {
-        "title": "New ToDo",
-        "description": "ToDo description"
+        "title": "New task",
+        "description": "Task description"
     }
     ```
-- **GET /todos/:id** - Get a specific to-do item by ID
-- **PUT /todos/:id** - Update a to-do item by ID
+- **GET api/tasks/:id** - Get a specific task by ID
+- **PUT api/tasks/:id** - Update a task by ID
     ```json
     {
-        "title": "Updated ToDo",
+        "title": "Updated task",
         "description": "Updated description"
     }
     ```
-- **DELETE /todos/:id** - Delete a to-do item by ID
+- **DELETE api/tasks/:id** - Delete a task by ID
