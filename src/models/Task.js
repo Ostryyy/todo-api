@@ -1,13 +1,20 @@
 const mongoose = require("mongoose");
 
 const TaskSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  status: {
+  title: {
     type: String,
-    enum: ["todo", "inProgress", "done"],
-    default: "todo",
+    required: true,
   },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  description: {
+    type: String,
+    required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
-module.exports = mongoose.model("Task", TaskSchema);
+// Check if the model already exists before defining it
+module.exports = mongoose.models.Task || mongoose.model("Task", TaskSchema);
