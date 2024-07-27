@@ -2,7 +2,7 @@ const Task = require("../models/Task");
 
 exports.getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user._id });
+    const tasks = await Task.find({ userId: req.user._id });
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
@@ -10,9 +10,9 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
-  const { title } = req.body;
+  const { title, description } = req.body;
   try {
-    const task = new Task({ title, user: req.user._id });
+    const task = new Task({ title, description, userId: req.user._id });
     await task.save();
     res.status(201).json(task);
   } catch (error) {
@@ -22,13 +22,14 @@ exports.createTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   const { taskId } = req.params;
-  const { title, status } = req.body;
+  const { title, description, status } = req.body;
   try {
     const task = await Task.findById(taskId);
-    if (!task || task.user.toString() !== req.user._id.toString()) {
+    if (!task || task.userId.toString() !== req.user._id.toString()) {
       return res.status(404).json({ error: "Task not found" });
     }
     task.title = title || task.title;
+    task.description = description || task.description;
     task.status = status || task.status;
     await task.save();
     res.json(task);
@@ -40,13 +41,13 @@ exports.updateTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
   const { taskId } = req.params;
   try {
-    const task = await Task.findByIdAndDelete(taskId);
-    if (!task || task.user.toString() !== req.user._id.toString()) {
+    const task = await Task.findById(taskId);
+    if (!task || task.userId.toString() !== req.user._id.toString()) {
       return res.status(404).json({ error: "Task not found" });
     }
+    await Task.findByIdAndDelete(taskId);
     res.json({ message: "Task deleted successfully" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
