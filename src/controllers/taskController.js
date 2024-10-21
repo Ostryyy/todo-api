@@ -10,9 +10,14 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.createTask = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, status } = req.body;
   try {
-    const task = new Task({ title, description, userId: req.user._id });
+    const task = new Task({
+      title,
+      description,
+      userId: req.user._id,
+      status: status || "todo",
+    });
     await task.save();
     res.status(201).json(task);
   } catch (error) {
