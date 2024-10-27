@@ -19,6 +19,10 @@ const TaskSchema = new mongoose.Schema({
     enum: ["todo", "in-progress", "done"],
     default: "todo",
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.models.Task || mongoose.model("Task", TaskSchema);
